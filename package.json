@@ -1,13 +1,14 @@
 {
   "name": "@carnet/sketch",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": "github:carnet-components/sketch",
+  "author": "Lorenz Schori",
+  "license": "MIT",
   "devDependencies": {
     "jshint": "^2.10.2"
   }
