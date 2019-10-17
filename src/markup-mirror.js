@@ -15,7 +15,7 @@ export class MarkupMirror {
 
   inputDisconnect() {
     if (this._input !== null) {
-      this._input.removeEventListener('input', this.inputValueChanged.bind(this))
+      this._input.removeEventListener('input', this.inputValueChanged.bind(this));
     }
 
     this._input = null;
@@ -46,17 +46,17 @@ export class MarkupMirror {
     // Disconnect removed outputs.
     const outset = new Set(outputs);
     Array.from(this._outputs)
-    .filter((elem) => !outset.has(elem))
-    .forEach((elem) => this.outputDisconnect(elem))
+      .filter((elem) => !outset.has(elem))
+      .forEach((elem) => this.outputDisconnect(elem));
 
     // Connect all outputs.
     Array.from(outputs)
-    .filter((elem) => !this._outputs.has(elem))
-    .forEach((elem) => this.outputConnect(elem));
+      .filter((elem) => !this._outputs.has(elem))
+      .forEach((elem) => this.outputConnect(elem));
   }
 
   outputsRefresh() {
     Array.from(this._outputs)
-    .forEach((elem) => this.outputRefresh(elem));
+      .forEach((elem) => this.outputRefresh(elem));
   }
 }

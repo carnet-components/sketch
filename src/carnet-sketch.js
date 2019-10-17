@@ -36,8 +36,8 @@ class CarnetSketch extends HTMLElement {
   }
 
   markupMirrorDisconnect() {
-    this._markupMirror.inputDisconnect()
-    this._markupMirror.outputsSet([])
+    this._markupMirror.inputDisconnect();
+    this._markupMirror.outputsSet([]);
   }
 
 }
