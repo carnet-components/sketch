@@ -1,3 +1,5 @@
+import { MarkupMirror } from './markup-mirror.js';
+
 class CarnetSketch extends HTMLElement {
   static get is() {
     return 'carnet-sketch';
@@ -5,35 +7,39 @@ class CarnetSketch extends HTMLElement {
 
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' }).innerHTML = `<slot></slot>`;
+
+    this._markupMirror = new MarkupMirror();
+    this._observer = new MutationObserver((e) => this.markupMirrorConnect());
   }
 
   connectedCallback() {
-    const { shadowRoot } = this;
-    const slot = shadowRoot.querySelector('slot');
-
-    slot.addEventListener('slotchange', function(e) {
-      const nodes = slot.assignedElements();
-
-      const area = nodes.map((child) => child.matches('textarea') ? child : child.querySelector('textarea')).find( (elem) => elem !== null );
-      const outs = [].concat(
-          nodes.map((child) => child.matches('carnet-display, iframe')),
-          ...nodes.map((child) => Array.from(child.querySelectorAll('carnet-display, iframe')))
-      ).filter( (elem) => elem );
-
-      if (area) {
-        outs.forEach( (out) => {
-          out.srcdoc = area.value;
-        });
-
-        area.addEventListener('input', (e) => {
-          outs.forEach( (out) => {
-            out.srcdoc = area.value;
-          });
-        });
-      }
-    });
+    this.markupMirrorConnect();
+    this._observer.observe(this, { attributes: false, childList: true, subtree: true });
   }
+
+  disconnectedCallback() {
+    this._observer.disconnect();
+    this.markupMirrorDisconnect();
+  }
+
+  markupMirrorConnect() {
+    const area = this.querySelector('textarea');
+    if (area !== null) {
+      this._markupMirror.inputConnect(area);
+    }
+    else {
+      this._markupMirror.inputDisconnect();
+    }
+
+    const outputs = this.querySelectorAll('carnet-display, iframe');
+    this._markupMirror.outputsSet(outputs);
+  }
+
+  markupMirrorDisconnect() {
+    this._markupMirror.inputDisconnect()
+    this._markupMirror.outputsSet([])
+  }
+
 }
 
 export { CarnetSketch };
