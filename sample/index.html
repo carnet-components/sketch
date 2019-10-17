@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Carnet Sketch Custom Element Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="module" src="../index.js"></script>
+        <style>
+            *, *:before, *:after {
+              box-sizing: inherit;
+            }
+
+            html {
+              box-sizing: border-box;
+            }
+
+            body {
+                max-width: 60rem;
+                margin: 2rem auto;
+            }
+
+            main {
+                margin: 1rem;
+            }
+
+            main > h1,
+            main > h2,
+            main > p {
+                font-family: Helvetica, Arial, sans-serif;
+            }
+
+            carnet-sketch {
+                display: block;
+            }
+
+            carnet-sketch carnet-display {
+                overflow: auto;
+                display: block;
+            }
+
+            carnet-sketch textarea, carnet-sketch output {
+                display: block;
+                width: 100%;
+                height: auto;
+                min-height: 10rem;
+                margin: 0;
+            }
+
+            @media screen and (min-width: 640px) {
+                carnet-sketch {
+                    display: flex;
+                }
+                carnet-sketch textarea, carnet-sketch output {
+                    flow: 1 1 auto;
+                    width: 50%;
+                }
+            }
+
+            carnet-sketch textarea {
+                box-sizing: border-box;
+                padding: 0.5rem;
+            }
+
+            carnet-sketch output {
+                background-color: #333;
+            }
+
+            carnet-sketch carnet-display, carnet-sketch iframe {
+                background-color: white;
+                border: 1rem solid white;
+            }
+
+            carnet-sketch carnet-display {
+                margin: 1rem;
+            }
+
+            carnet-sketch iframe {
+                display: block;
+                width: 320px;
+                height: 480px;
+                margin: 1rem auto;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <h1>Carnet Sketch Custom Element Demo</h1>
+            <p>
+                The custom element <code>&lt;carnet-sketch&gt;</code> is
+                responsible for rendering markup from a
+                <code>&lt;textarea&gt;</code> in one or more
+                <code>&lt;carnet-display&gt;</code> and <code>iframe</code>
+                elements.
+            </p>
+    
+            <h2>Render into Shadow DOM</h2>
+            <p>
+                A <code>&lt;carnet-display&gt;</code> element is used to render
+                markup from a <code>&lt;textarea&gt;</code> into the shadow
+                DOM. This approach is suitable for ui elements and patterns.
+            </p>
+
+            <p><small>Note: Markup is editable</small></p>
+
+            <carnet-sketch>
+
+<textarea>
+<link rel="stylesheet" href="./fragment.css">
+<h1>Inside shadow DOM</h1>
+<p>This markup fragment is rendered inside a shadow DOM. Note that the linked CSS does not affect the whole page, but only this isolated fragment.</p>
+</textarea>
+
+                <output>
+                    <carnet-display></carnet-display>
+                </output>
+            </carnet-sketch>
+    
+            <h2>Render into iframe</h2>
+            <p>
+                An <code>&lt;iframe&gt;</code> element is used to render markup
+                from a <code>&lt;textarea&gt;</code> into a nested browser
+                context. This approach is useful to present whole layouts in
+                fixed size viewports, e.g. in order to simulate mobile devices.
+            </p>
+    
+            <carnet-sketch>
+
+<textarea><link rel="stylesheet" href="./page.css">
+<h1>Inside iframe</h1>
+<p>This markup fragment is rendered inside an iframe.</p>
+</textarea>
+
+                <output>
+                    <iframe></iframe>
+                </output>
+            </carnet-sketch>
+        </main>
+    </body>
+</html>
