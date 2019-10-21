@@ -31,7 +31,7 @@ class CarnetSketch extends HTMLElement {
       this._markupMirror.inputDisconnect();
     }
 
-    const outputs = this.querySelectorAll('carnet-display, iframe');
+    const outputs = this.querySelectorAll('carnet-display, carnet-window, iframe');
     this._markupMirror.outputsSet(outputs);
   }
 
