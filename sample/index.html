@@ -64,6 +64,16 @@
                 background-color: #333;
             }
 
+            carnet-sketch output a.carnet-window,
+            carnet-sketch output a.carnet-window:link {
+                border: 1px solid #333;
+                padding: calc(1/8 * 1em);
+                background-color: white;
+                color: inherit;
+                display: block;
+                text-decoration: underline;
+            }
+
             carnet-sketch carnet-display, carnet-sketch iframe {
                 background-color: white;
                 border: 1rem solid white;
@@ -80,6 +90,17 @@
                 margin: 1rem auto;
             }
         </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                let w = document.createElement('carnet-window');
+                w.url = document.location.toString().replace('index.html', 'blank.html');
+                document.querySelectorAll('a.carnet-window').forEach((link) => {
+                    link.addEventListener('click', () => {
+                        link.parentElement.appendChild(w);
+                    });
+                });
+            });
+        </script>
     </head>
     <body>
         <main>
@@ -110,6 +131,7 @@
 </textarea>
 
                 <output>
+                    <a class="carnet-window">Open in Separate Window</a>
                     <carnet-display></carnet-display>
                 </output>
             </carnet-sketch>
@@ -130,6 +152,7 @@
 </textarea>
 
                 <output>
+                    <a class="carnet-window">Open in Separate Window</a>
                     <iframe></iframe>
                 </output>
             </carnet-sketch>
