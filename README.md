@@ -40,7 +40,7 @@ Depending on whether or not a bundler / preprocessor is used, the way how custom
 </html>
 ```
 
-In order to use the elements, place a `<textarea>` (input) and one or more `<carnet-display>` / `<iframe>` elements (outputs) into a `<carnet-sketch>` container. Markup from the `<textarea>` is then automatically mirrored into a shadow DOM (`<carnet-display>` outputs) or a nested browser context (`<iframe>` outputs). The outputs are refreshed whenever the input changes.
+In order to use the elements, place a `<textarea>` (input) and one or more `<carnet-display>`, `<carnet-window>` or `<iframe>` elements (outputs) into a `<carnet-sketch>` container. Markup from the `<textarea>` is then automatically mirrored into a shadow DOM (`<carnet-display>` outputs), a separate browser window (`<carnet-window` outputs) or a nested browser context (`<iframe>` outputs). The outputs are refreshed whenever the input changes.
 
 **Example**:
 
