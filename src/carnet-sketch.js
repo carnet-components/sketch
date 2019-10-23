@@ -25,6 +25,11 @@ class CarnetSketch extends HTMLElement {
   }
 
   childElementsReconnect() {
+    const tpl = this.querySelector('template');
+    if (tpl) {
+      this._markupSource.set(tpl.innerHTML);
+    }
+
     const source = this.querySelector('link[rel="CARNET.source"]');
     if (source && source.href) {
       this._markupSource.load(source.href);

@@ -6,6 +6,10 @@ export class MarkupSource {
     this._url = null;
   }
 
+  set(markup) {
+    this._markup = markup;
+  }
+
   load(url) {
     if (url !== this._url) {
       fetch(url).then((response) => {
