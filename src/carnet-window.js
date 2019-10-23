@@ -57,7 +57,6 @@ class CarnetWindow extends HTMLElement {
 
   connectedCallback() {
     this._connected = true;
-    this._windowRefresh();
   }
 
   disconnectedCallback() {
