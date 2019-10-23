@@ -57,6 +57,18 @@ In order to use the elements, place a `<textarea>` (input) and one or more `<car
 </carnet-sketch>
 ```
 
+Example markup code can be placed in external files and then referenced using a `<link>` element placed inside a `<carnet-sketch>`. The `rel` attribute of the `link` needs to be set to `CARNET.source`. The markup source is then loaded automatically from the referenced document and placed into the `<textarea>`.
+
+**Example**:
+
+```html
+<carnet-sketch>
+    <link rel="CARNET.sketch" href="./some-example.html">
+    <textarea></textarea>
+    <carnet-display></carnet-display>
+</carnet-sketch>
+```
+
 ### License
 
 MIT
