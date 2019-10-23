@@ -156,6 +156,23 @@
                     <iframe></iframe>
                 </output>
             </carnet-sketch>
+
+            <h2>Load from external document</h2>
+            <p>
+                Markup source can be loaded from an external document using a
+                <code>&lt;link&gt;</code> tag. The <code>rel</code> attribute
+                must be set to <code>CARNET.source</code>.
+            </p>
+
+            <carnet-sketch>
+                <link rel="CARNET.source" href="./external.html">
+                <textarea></textarea>
+
+                <output>
+                    <a class="carnet-window">Open in Separate Window</a>
+                    <carnet-display></carnet-display>
+                </output>
+            </carnet-sketch>
         </main>
     </body>
 </html>

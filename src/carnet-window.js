@@ -48,7 +48,7 @@ class CarnetWindow extends HTMLElement {
 
   constructor() {
     super();
-    this._name = "Carnet Preview"
+    this._name = "Carnet Preview";
     this._srcdoc = "";
     this._url = "about:blank";
     this._window = null;
