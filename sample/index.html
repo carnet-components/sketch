@@ -112,7 +112,7 @@
                 <code>&lt;carnet-display&gt;</code> and
                 <code>&lt;iframe&gt;</code> elements.
             </p>
-    
+
             <h2>Render into Shadow DOM</h2>
             <p>
                 A <code>&lt;carnet-display&gt;</code> element is used to render
@@ -135,7 +135,7 @@
                     <carnet-display></carnet-display>
                 </output>
             </carnet-sketch>
-    
+
             <h2>Render into iframe</h2>
             <p>
                 An <code>&lt;iframe&gt;</code> element is used to render markup
@@ -143,7 +143,7 @@
                 context. This approach is useful to present whole layouts in
                 fixed size viewports, e.g. in order to simulate mobile devices.
             </p>
-    
+
             <carnet-sketch>
 
 <textarea><link rel="stylesheet" href="./page.css">
@@ -166,6 +166,33 @@
 
             <carnet-sketch>
                 <link rel="CARNET.source" href="./external.html">
+                <textarea></textarea>
+
+                <output>
+                    <a class="carnet-window">Open in Separate Window</a>
+                    <carnet-display></carnet-display>
+                </output>
+            </carnet-sketch>
+
+            <h2>Initialize from template</h2>
+            <p>
+                Markup source can be a &lt;template&gt; as well.
+            </p>
+
+            <carnet-sketch>
+
+<template><style>
+h1 {
+  color: brown;
+}
+p {
+  color: fuchsia;
+}
+</style>
+<h1>From HTML template</h1>
+<p>This fragment is rendered from a &lt;template&gt;.</p>
+</template>
+
                 <textarea></textarea>
 
                 <output>
