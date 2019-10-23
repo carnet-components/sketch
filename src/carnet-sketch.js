@@ -22,8 +22,34 @@ class CarnetSketch extends HTMLElement {
     this.markupMirrorDisconnect();
   }
 
+  markupSourceLoad() {
+    const source = this.querySelector('link[rel="CARNET.source"]');
+    if (source && source.href) {
+      fetch(source.href).then((response) => {
+        if (response.ok) {
+          response.text().then((text) => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, "text/html");
+            this._initialMarkup = doc.body.innerHTML;
+            this.markupSourceInitialize();
+          });
+        }
+      });
+    }
+  }
+
+  markupSourceInitialize() {
+    const area = this.querySelector('textarea');
+    if (area !== null) {
+      area.value = this._initialMarkup;
+      area.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  }
+
   markupMirrorConnect() {
     const area = this.querySelector('textarea');
+    this.markupSourceLoad();
+
     if (area !== null) {
       this._markupMirror.inputConnect(area);
     }
