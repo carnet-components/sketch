@@ -1,4 +1,5 @@
 import { MarkupMirror } from './markup-mirror.js';
+import { MarkupSource } from './markup-source.js';
 
 class CarnetSketch extends HTMLElement {
   static get is() {
@@ -9,51 +10,33 @@ class CarnetSketch extends HTMLElement {
     super();
 
     this._markupMirror = new MarkupMirror();
-    this._observer = new MutationObserver((e) => this.markupMirrorConnect());
+    this._markupSource = new MarkupSource();
+    this._observer = new MutationObserver((e) => this.childElementsReconnect());
   }
 
   connectedCallback() {
-    this.markupMirrorConnect();
+    this.childElementsReconnect();
     this._observer.observe(this, { attributes: false, childList: true, subtree: true });
   }
 
   disconnectedCallback() {
     this._observer.disconnect();
-    this.markupMirrorDisconnect();
+    this.childElementsDisconnect();
   }
 
-  markupSourceLoad() {
+  childElementsReconnect() {
     const source = this.querySelector('link[rel="CARNET.source"]');
     if (source && source.href) {
-      fetch(source.href).then((response) => {
-        if (response.ok) {
-          response.text().then((text) => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(text, "text/html");
-            this._initialMarkup = doc.body.innerHTML;
-            this.markupSourceInitialize();
-          });
-        }
-      });
+      this._markupSource.load(source.href);
     }
-  }
 
-  markupSourceInitialize() {
     const area = this.querySelector('textarea');
     if (area !== null) {
-      area.value = this._initialMarkup;
-      area.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-  }
-
-  markupMirrorConnect() {
-    const area = this.querySelector('textarea');
-    this.markupSourceLoad();
-
-    if (area !== null) {
+      this._markupSource.outputConnect(area);
       this._markupMirror.inputConnect(area);
     }
     else {
+      this._markupSource.outputDisconnect();
       this._markupMirror.inputDisconnect();
     }
 
@@ -61,7 +44,8 @@ class CarnetSketch extends HTMLElement {
     this._markupMirror.outputsSet(outputs);
   }
 
-  markupMirrorDisconnect() {
+  childElementsDisconnect() {
+    this._markupSource.outputDisconnect();
     this._markupMirror.inputDisconnect();
     this._markupMirror.outputsSet([]);
   }
