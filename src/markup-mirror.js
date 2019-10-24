@@ -1,27 +1,62 @@
 export class MarkupMirror {
   constructor() {
-    this._input = null;
+    this._editor = null;
     this._outputs = new Set();
+    this._source = null;
   }
 
-  inputConnect(input) {
-    if (input !== this._input) {
-      this.inputDisconnect();
-      this._input = input;
-      this._input.addEventListener('input', this.inputValueChanged.bind(this));
+  sourceConnect(source) {
+    if (source !== this._source) {
+      this.sourceDisconnect();
+      this._source = source;
+      this._source.addEventListener('carnet.source', this.sourceValueChanged.bind(this));
+      this.editorRefresh();
       this.outputsRefresh();
     }
   }
 
-  inputDisconnect() {
-    if (this._input !== null) {
-      this._input.removeEventListener('input', this.inputValueChanged.bind(this));
+  sourceDisconnect() {
+    if (this._source !== null) {
+      this._source.removeEventListener('carnet.source', this.sourceValueChanged.bind(this));
     }
 
-    this._input = null;
+    this._source = null;
   }
 
-  inputValueChanged(evt) {
+  sourceValueChanged(evt) {
+    this.editorRefresh();
+    this.outputsRefresh();
+  }
+
+  editorConnect(editor) {
+    if (editor !== this._editor) {
+      this.editorDisconnect();
+      this._editor = editor;
+      this._editor.addEventListener('carnet.input', this.editorValueChanged.bind(this));
+      this.outputsRefresh();
+    }
+  }
+
+  editorDisconnect() {
+    if (this._editor !== null) {
+      this._editor.removeEventListener('carnet.input', this.editorValueChanged.bind(this));
+    }
+
+    this._editor = null;
+  }
+
+  editorRefresh() {
+    if (
+      this._editor !== null &&
+      this._source !== null &&
+      this._editor.value === "" &&
+      this._source.value !== "")
+    {
+      this._editor.value = this._source.value;
+    }
+  }
+
+  editorValueChanged(evt) {
     this.outputsRefresh();
   }
 
@@ -37,8 +72,13 @@ export class MarkupMirror {
   }
 
   outputRefresh(output) {
-    if (this._input !== null && this._outputs.has(output)) {
-      output.srcdoc = this._input.value;
+    if (this._outputs.has(output)) {
+      if (this._editor !== null) {
+        output.srcdoc = this._editor.value;
+      }
+      else if (this._source !== null) {
+        output.srcdoc = this._source.value;
+      }
     }
   }
 

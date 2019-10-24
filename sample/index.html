@@ -37,11 +37,8 @@
                 display: block;
             }
 
-            carnet-sketch textarea, carnet-sketch output {
+            carnet-sketch carnet-editor, carnet-sketch output {
                 display: block;
-                width: 100%;
-                height: auto;
-                min-height: 10rem;
                 margin: 0;
             }
 
@@ -49,7 +46,7 @@
                 carnet-sketch {
                     display: flex;
                 }
-                carnet-sketch textarea, carnet-sketch output {
+                carnet-sketch carnet-editor, carnet-sketch output {
                     flow: 1 1 auto;
                     width: 50%;
                 }
@@ -57,6 +54,9 @@
 
             carnet-sketch textarea {
                 box-sizing: border-box;
+                width: 100%;
+                height: auto;
+                min-height: 10rem;
                 padding: 0.5rem;
             }
 
@@ -124,11 +124,11 @@
 
             <carnet-sketch>
 
-<textarea>
+<carnet-editor><textarea>
 <link rel="stylesheet" href="./fragment.css">
 <h1>Inside shadow DOM</h1>
 <p>This markup fragment is rendered inside a shadow DOM. Note that the linked CSS does not affect the whole page, but only this isolated fragment.</p>
-</textarea>
+</textarea></carnet-editor>
 
                 <output>
                     <a class="carnet-window">Open in Separate Window</a>
@@ -146,10 +146,10 @@
 
             <carnet-sketch>
 
-<textarea><link rel="stylesheet" href="./page.css">
+<carnet-editor><textarea><link rel="stylesheet" href="./page.css">
 <h1>Inside iframe</h1>
 <p>This markup fragment is rendered inside an iframe.</p>
-</textarea>
+</textarea></carnet-editor>
 
                 <output>
                     <a class="carnet-window">Open in Separate Window</a>
@@ -160,13 +160,32 @@
             <h2>Load from external document</h2>
             <p>
                 Markup source can be loaded from an external document using a
-                <code>&lt;link&gt;</code> tag. The <code>rel</code> attribute
-                must be set to <code>CARNET.source</code>.
+                <code>&lt;href&gt;</code> attribute on the
+                <code>&lt;carnet-source&gt;</code> element.
             </p>
 
             <carnet-sketch>
-                <link rel="CARNET.source" href="./external.html">
-                <textarea></textarea>
+                <carnet-source href="./external.html"></carnet-source>
+                <carnet-editor><textarea></textarea></carnet-editor>
+
+                <output>
+                    <a class="carnet-window">Open in Separate Window</a>
+                    <carnet-display></carnet-display>
+                </output>
+            </carnet-sketch>
+
+
+            <h2>Load from external document with link element</h2>
+            <p>
+                Markup source can be loaded from an external document using a
+                <code>&lt;link&gt;</code> tag as a child of
+                <code>&lt;carnet-source&gt</code>. The <code>rel</code>
+                attribute must be set to <code>CARNET.source</code>.
+            </p>
+
+            <carnet-sketch>
+                <carnet-source><link rel="CARNET.source" href="./external.html"></carnet-source>
+                <carnet-editor><textarea></textarea></carnet-editor>
 
                 <output>
                     <a class="carnet-window">Open in Separate Window</a>
@@ -181,7 +200,7 @@
 
             <carnet-sketch>
 
-<template><style>
+<carnet-source><template><style>
 h1 {
   color: brown;
 }
@@ -191,9 +210,34 @@ p {
 </style>
 <h1>From HTML template</h1>
 <p>This fragment is rendered from a &lt;template&gt;.</p>
-</template>
+  </template></carnet-source>
 
-                <textarea></textarea>
+                <carnet-editor><textarea></textarea></carnet-editor>
+
+                <output>
+                    <a class="carnet-window">Open in Separate Window</a>
+                    <carnet-display></carnet-display>
+                </output>
+            </carnet-sketch>
+
+            <h2>Without editor</h2>
+            <p>
+            Editor / <code>&lt;textarea&gt;</code> is optional.
+            </p>
+
+            <carnet-sketch>
+
+<carnet-source><template><style>
+h1 {
+  color: green;
+}
+p {
+  color: black;
+}
+</style>
+<h1>From HTML template without editor</h1>
+<p>This fragment is rendered from a &lt;template&gt;.</p>
+  </template></carnet-source>
 
                 <output>
                     <a class="carnet-window">Open in Separate Window</a>

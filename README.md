@@ -27,32 +27,27 @@ Depending on whether or not a bundler / preprocessor is used, the way how custom
 </html>
 ```
 
-**Bundler with tilde expansion (e.g. parcel):**
+In order to use the elements, place a `<carnet-source>` and or a `<carnet-editor>` (inputs) and one or more `<carnet-display>`, `<carnet-window>` or `<iframe>` elements (outputs) into a `<carnet-sketch>` container.
 
-```html
-<html>
-    <head>
-        <script src="~/@carnet/sketch"></script>
-    </head>
-    <body>
-        [...]
-    </body>
-</html>
-```
+The `<carnet-source>` accepts a `<template>` child which defines markup which is used to initialize the editor and outputs. Alternatively a remote document can be specified using the `href` attribute on the `<carnet-source>` element or a `<link>` child element. In the latter case, the `rel` attribute needs to be set to `CARNET.source`.
 
-In order to use the elements, place a `<textarea>` (input) and one or more `<carnet-display>`, `<carnet-window>` or `<iframe>` elements (outputs) into a `<carnet-sketch>` container. Markup from the `<textarea>` is then automatically mirrored into a shadow DOM (`<carnet-display>` outputs), a separate browser window (`<carnet-window` outputs) or a nested browser context (`<iframe>` outputs). The outputs are refreshed whenever the input changes.
+In order to connect a code editor, it needs to be wrapped into a `<carnet-editor>`. Currently it only supports a simple `<textarea>`.
+
+Markup from `<carnet-source>` and `<carnet-editor>` is automatically mirrored into a shadow DOM (`<carnet-display>` outputs), a separate browser window (`<carnet-window` outputs) or a nested browser context (`<iframe>` outputs). The outputs are refreshed whenever the input changes.
 
 **Example**:
 
 ```html
 <carnet-sketch>
-    <textarea>
-        <style>h1 { color: red; }</style>
-        <h1>Rendered inside shadow DOM</h1>
-        <p>
-            Changes in the markup will propagate automatically.
-        </p>
-    </textarea>
+    <carnet-editor>
+    	<textarea>
+        	<style>h1 { color: red; }</style>
+        	<h1>Rendered inside shadow DOM</h1>
+        	<p>
+            	Changes in the markup will propagate automatically.
+        	</p>
+    	</textarea>
+    </carnet-editor>
     <carnet-display></carnet-display>
 </carnet-sketch>
 ```
@@ -63,8 +58,12 @@ Example markup code can be placed in external files and then referenced using a 
 
 ```html
 <carnet-sketch>
-    <link rel="CARNET.sketch" href="./some-example.html">
-    <textarea></textarea>
+    <carnet-source>
+        <link rel="CARNET.sketch" href="./some-example.html">
+    </carnet-source>
+    <carnet-editor>
+        <textarea></textarea>
+    </carnet-editor>
     <carnet-display></carnet-display>
 </carnet-sketch>
 ```
