@@ -4,6 +4,7 @@
         <title>Carnet Sketch Custom Element Demo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="module" src="../index.js"></script>
+        <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css">
         <style>
             *, *:before, *:after {
               box-sizing: inherit;
@@ -244,6 +245,52 @@ p {
                     <carnet-display></carnet-display>
                 </output>
             </carnet-sketch>
+
+            <h2>Codemirror editor</h2>
+            <p>
+                A <code>&lt;carnet-editor&gt;</code> element can contain a
+                codemirror instance.
+            </p>
+
+            <p><small>Note: Markup is editable</small></p>
+
+
+            <carnet-sketch>
+
+<carnet-source><template><link rel="stylesheet" href="./fragment.css">
+<h1>Inside shadow DOM</h1>
+<p>This markup fragment is rendered inside a shadow DOM. Note that the linked CSS does not affect the whole page, but only this isolated fragment.</p>
+  </template></carnet-source>
+
+                <carnet-editor class="carnet-codemirror"></carnet-editor>
+
+                <output>
+                    <a class="carnet-window">Open in Separate Window</a>
+                    <carnet-display></carnet-display>
+                </output>
+            </carnet-sketch>
         </main>
+
+        <script src="../node_modules/codemirror/lib/codemirror.js"></script>
+        <script src="../node_modules/codemirror/addon/edit/closetag.js"></script>
+        <script src="../node_modules/codemirror/addon/fold/xml-fold.js"></script>
+        <script src="../node_modules/codemirror/mode/xml/xml.js"></script>
+        <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
+        <script src="../node_modules/codemirror/mode/css/css.js"></script>
+        <script src="../node_modules/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+        <script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.carnet-codemirror').forEach( (element) => {
+    console.log(element);
+        CodeMirror(element, {
+            autoCloseTags: true,
+            indentUnit: 4,
+            inputStyle: "contenteditable",
+            lineNumbers: true,
+            mode: "text/html"
+        });
+  });
+});
+        </script>
     </body>
 </html>
