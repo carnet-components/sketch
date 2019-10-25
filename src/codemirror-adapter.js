@@ -12,7 +12,7 @@ export class CodeMirrorAdapter {
 
     const current = this._codemirror.getValue();
     const update = (name, previous, current) => {
-      if (current !== null) {
+      if (current !== null && this._codemirror.getValue() !== current) {
         this._codemirror.setValue(current);
       }
     };

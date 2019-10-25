@@ -4,7 +4,6 @@
         <title>Carnet Sketch Custom Element Demo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="module" src="../index.js"></script>
-        <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css">
         <style>
             *, *:before, *:after {
               box-sizing: inherit;
@@ -59,6 +58,10 @@
                 height: auto;
                 min-height: 10rem;
                 padding: 0.5rem;
+            }
+
+            carnet-sketch .CodeMirror {
+                border: 1px solid #333;
             }
 
             carnet-sketch output {
@@ -271,26 +274,46 @@ p {
             </carnet-sketch>
         </main>
 
-        <script src="../node_modules/codemirror/lib/codemirror.js"></script>
-        <script src="../node_modules/codemirror/addon/edit/closetag.js"></script>
-        <script src="../node_modules/codemirror/addon/fold/xml-fold.js"></script>
-        <script src="../node_modules/codemirror/mode/xml/xml.js"></script>
-        <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
-        <script src="../node_modules/codemirror/mode/css/css.js"></script>
-        <script src="../node_modules/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+        <!-- Load codemirror either from local copy (node modules) or CDN -->
+
+        <!--
+            <script src="../node_modules/codemirror/lib/codemirror.js"></script>
+            <script src="../node_modules/codemirror/addon/edit/closetag.js"></script>
+            <script src="../node_modules/codemirror/addon/fold/xml-fold.js"></script>
+            <script src="../node_modules/codemirror/mode/xml/xml.js"></script>
+            <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
+            <script src="../node_modules/codemirror/mode/css/css.js"></script>
+            <script src="../node_modules/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+            <link  href="../node_modules/codemirror/lib/codemirror.css" rel="stylesheet">
+        -->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/addon/edit/closetag.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/addon/fold/xml-fold.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/xml/xml.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/javascript/javascript.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/css/css.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/htmlmixed/htmlmixed.js"></script>
+        <link  href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css" rel="stylesheet">
         <script>
+
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.carnet-codemirror').forEach( (element) => {
-    console.log(element);
-        CodeMirror(element, {
-            autoCloseTags: true,
-            indentUnit: 4,
-            inputStyle: "contenteditable",
-            lineNumbers: true,
-            mode: "text/html"
-        });
-  });
+    document.querySelectorAll('.carnet-codemirror').forEach( (element) => {
+        if (typeof CodeMirror !== 'undefined') {
+            CodeMirror(element, {
+                autoCloseTags: true,
+                indentUnit: 4,
+                inputStyle: "contenteditable",
+                lineNumbers: true,
+                mode: "text/html"
+            });
+        }
+        else {
+            element.innerHTML = '<pre>Failed to load codemirror</pre>'
+        }
+    });
 });
+
         </script>
     </body>
 </html>
