@@ -1,4 +1,6 @@
 import { Attribute } from './attribute.js';
+import { CodeMirrorAdapter } from './codemirror-adapter.js';
+import { TextareaAdapter } from './textarea-adapter.js';
 
 class CarnetEditor extends HTMLElement {
   static get is() {
@@ -18,15 +20,10 @@ class CarnetEditor extends HTMLElement {
   constructor() {
     super();
 
-    this._valattr = new Attribute('value', (name, previous, current) => {
-      if (current !== null) {
-        this._input.value = current;
-      }
-    });
-
-    this._callback = (evt) => this._post(evt.target.value);
+    this._adapter = null;
     this._input = null;
     this._observer = new MutationObserver((e) => this._rewire());
+    this._valattr = new Attribute('value');
   }
 
   get value() {
@@ -38,6 +35,7 @@ class CarnetEditor extends HTMLElement {
   }
 
   connectedCallback() {
+    this._valattr.connect(this);
     this._rewire();
     this._observer.observe(this, { attributes: false, childList: true, subtree: true });
   }
@@ -55,19 +53,32 @@ class CarnetEditor extends HTMLElement {
   }
 
   _rewire() {
-    const area = this.querySelector('textarea');
-    if (this._input !== area) {
-      if (this._input !== null) {
-        this._valattr.disconnect();
-        this._input.removeEventListener('input', this._callback);
+    const candidates = [
+      { selector: '.CodeMirror', adapter: new CodeMirrorAdapter() },
+      { selector: 'textarea', adapter: new TextareaAdapter() },
+    ];
+
+    const bestmatch = candidates.map((record) => Object.assign(record, {
+      element: this.querySelector(record.selector)
+    })).find((record) => record.element !== null);
+
+    if (bestmatch) {
+      const { element, adapter } = bestmatch;
+      if (this._input !== element && this._adapter !== null) {
+        this._valattr.disconnect()
+        this._adapter.disconnect();
         this._input = null;
+        this._adapter = null;
       }
-      if (area !== null) {
-        this._input = area;
-        this._input.addEventListener('input', this._callback);
+
+      if (this._input !== element && element !== null) {
+        this._input = element;
+        this._adapter = adapter;
+        const { current, update } = this._adapter.connect(this._input, (value) => this._post(value));
+        this._valattr = new Attribute('value', update);
         this._valattr.connect(this);
-        if (this._input.value) {
-          this._valattr.value = this._input.value;
+        if (current) {
+          this._valattr.value = current;
         }
       }
     }

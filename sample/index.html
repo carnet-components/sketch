@@ -60,6 +60,10 @@
                 padding: 0.5rem;
             }
 
+            carnet-sketch .CodeMirror {
+                border: 1px solid #333;
+            }
+
             carnet-sketch output {
                 background-color: #333;
             }
@@ -244,6 +248,72 @@ p {
                     <carnet-display></carnet-display>
                 </output>
             </carnet-sketch>
+
+            <h2>Codemirror editor</h2>
+            <p>
+                A <code>&lt;carnet-editor&gt;</code> element can contain a
+                codemirror instance.
+            </p>
+
+            <p><small>Note: Markup is editable</small></p>
+
+
+            <carnet-sketch>
+
+<carnet-source><template><link rel="stylesheet" href="./fragment.css">
+<h1>Inside shadow DOM</h1>
+<p>This markup fragment is rendered inside a shadow DOM. Note that the linked CSS does not affect the whole page, but only this isolated fragment.</p>
+  </template></carnet-source>
+
+                <carnet-editor class="carnet-codemirror"></carnet-editor>
+
+                <output>
+                    <a class="carnet-window">Open in Separate Window</a>
+                    <carnet-display></carnet-display>
+                </output>
+            </carnet-sketch>
         </main>
+
+        <!-- Load codemirror either from local copy (node modules) or CDN -->
+
+        <!--
+            <script src="../node_modules/codemirror/lib/codemirror.js"></script>
+            <script src="../node_modules/codemirror/addon/edit/closetag.js"></script>
+            <script src="../node_modules/codemirror/addon/fold/xml-fold.js"></script>
+            <script src="../node_modules/codemirror/mode/xml/xml.js"></script>
+            <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
+            <script src="../node_modules/codemirror/mode/css/css.js"></script>
+            <script src="../node_modules/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+            <link  href="../node_modules/codemirror/lib/codemirror.css" rel="stylesheet">
+        -->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/addon/edit/closetag.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/addon/fold/xml-fold.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/xml/xml.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/javascript/javascript.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/css/css.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/htmlmixed/htmlmixed.js"></script>
+        <link  href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css" rel="stylesheet">
+        <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.carnet-codemirror').forEach( (element) => {
+        if (typeof CodeMirror !== 'undefined') {
+            CodeMirror(element, {
+                autoCloseTags: true,
+                indentUnit: 4,
+                inputStyle: "contenteditable",
+                lineNumbers: true,
+                mode: "text/html"
+            });
+        }
+        else {
+            element.innerHTML = '<pre>Failed to load codemirror</pre>'
+        }
+    });
+});
+
+        </script>
     </body>
 </html>

@@ -10,6 +10,7 @@
   "author": "Lorenz Schori",
   "license": "MIT",
   "devDependencies": {
+    "codemirror": "^5.49.2",
     "jshint": "^2.10.2"
   }
 }
