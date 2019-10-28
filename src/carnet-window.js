@@ -42,7 +42,7 @@ class CarnetWindow extends HTMLElement {
   }
 
   set url(url) {
-    this._url = url;
+    this._url = new URL(url);
     this._windowRefresh();
   }
 
@@ -50,7 +50,7 @@ class CarnetWindow extends HTMLElement {
     super();
     this._name = "Carnet Preview";
     this._srcdoc = "";
-    this._url = "about:blank";
+    this._url = new URL("about:blank");
     this._window = null;
     this._connected = false;
   }
@@ -66,14 +66,14 @@ class CarnetWindow extends HTMLElement {
   _windowRefresh() {
     if (this._connected) {
       if (this._window === null || this._window.closed) {
-        this._window = window.open(this._url, this._name);
+        this._window = window.open(this._url.toString(), this._name);
         this._window.addEventListener('DOMContentLoaded', () => this._windowRefresh());
         return;
       }
 
       let child = this._window;
-      if (child.location.toString() !== this._url) {
-        child.location.replace(this._url);
+      if (child.location.toString() !== this._url.toString()) {
+        child.location.replace(this._url.toString());
         this._window.addEventListener('DOMContentLoaded', () => this._windowRefresh());
         return;
       }
