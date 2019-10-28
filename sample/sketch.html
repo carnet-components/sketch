@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="module" src="../index.js"></script>
+    </head>
+    <body>
+        <h1>Subsketch</h1>
+        <p>
+        A sketch can work as an autonomus page (i.e., open this HTML file
+        inside a browser). However, it may be included from another file as
+        well.
+        </p>
+        <carnet-sketch>
+            <carnet-source>
+                <template>
+                    <style>
+                        h1 {
+                            color: blue;
+                        }
+                        p {
+                            color: darkgray;
+                        }
+                    </style>
+                    <h1>Standalone sketch</h1>
+                    <p>
+                    This sketch is defined in a separate file. It can be
+                    viewed either standalone or included from another file.
+                    </p>
+                </template>
+            </carnet-source>
+            <carnet-display></carnet-display>
+        </carnet-sketch>
+    </body>
+</html>

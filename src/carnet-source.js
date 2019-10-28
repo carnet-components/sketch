@@ -99,7 +99,8 @@ class CarnetSource extends HTMLElement {
           this._inflight = null;
           const parser = new DOMParser();
           const doc = parser.parseFromString(text, 'text/html');
-          this._post(doc.body.innerHTML);
+          const tpl = doc.querySelector('carnet-source template') || doc.body;
+          this._post(tpl.innerHTML);
         });
       }
     });

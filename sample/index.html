@@ -96,10 +96,19 @@
         </style>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                let w = document.createElement('carnet-window');
-                w.url = document.location.toString().replace('index.html', 'blank.html');
+                const base = document.location.toString();
+                const defaultUrl = new URL('blank.html', base);
+                const hasProto = /^[a-z0-9]+:/i;
+                const w = document.createElement('carnet-window');
                 document.querySelectorAll('a.carnet-window').forEach((link) => {
-                    link.addEventListener('click', () => {
+                    let url = defaultUrl;
+                    const href = link.getAttribute('href');
+                    if (href) {
+                        url = new URL(href, hasProto.test(href) ? undefined : base);
+                    }
+                    link.addEventListener('click', (evt) => {
+                        evt.preventDefault();
+                        w.url = url;
                         link.parentElement.appendChild(w);
                     });
                 });
@@ -178,6 +187,17 @@
                 </output>
             </carnet-sketch>
 
+            <h2>Load template from external document, render result into ext. document</h2>
+
+            <carnet-sketch>
+                <carnet-source href="./sketch.html"></carnet-source>
+                <carnet-editor><textarea></textarea></carnet-editor>
+
+                <output>
+                    <a href="./sketch.html" class="carnet-window">Open in Separate Window (use same doc as source)</a>
+                    <carnet-display></carnet-display>
+                </output>
+            </carnet-sketch>
 
             <h2>Load from external document with link element</h2>
             <p>
